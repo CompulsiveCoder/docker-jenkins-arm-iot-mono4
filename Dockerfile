@@ -38,12 +38,8 @@ ENV JENKINS_HOME /usr/local/jenkins
 RUN mkdir -p /usr/local/jenkins
 RUN useradd --no-create-home --shell /bin/sh jenkins 
 RUN chown -R jenkins:jenkins /usr/local/jenkins/
-ADD http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war /usr/local/jenkins.war
-RUN chmod 644 /usr/local/jenkins.war
-
 
 RUN usermod -aG docker jenkins
-
 
 RUN apt-get update && apt-get install -y nano python python-pip build-essential && rm -rf /var/lib/apt/lists/*
 
@@ -60,7 +56,19 @@ RUN apt-get update && apt-get -y install \
   sudo \
   mosquitto-clients \
   unzip \
+  zip \
   && rm -rf /var/lib/apt/lists/*
+  
+RUN wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-1.5.tar.gz && \
+  tar xzf jq-1.5.tar.gz && \
+  cd jq-1.5/ && \
+  ./configure && make && make install && \
+  cd ../ && \
+  rm jq-1.5/ -R && \
+  rm jq-1.5.tar.gz
+  
+ADD http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war /usr/local/jenkins.war
+RUN chmod 644 /usr/local/jenkins.war
 
 USER ${user}
 
