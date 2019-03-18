@@ -10,7 +10,7 @@ pipeline {
             steps {
                 checkout scm
                 
-                shHide( 'git remote set-url origin https://${GHTOKEN}@github.com/GreenSense/docker-jenkins-arm-iot-mono.git' )
+                shHide( 'git remote set-url origin https://${GHTOKEN}@github.com/CompulsiveCoder/docker-jenkins-arm-iot-mono4.git' )
                 sh "git config --add remote.origin.fetch +refs/heads/master:refs/remotes/origin/master"
                 sh "git fetch --no-tags"
                 sh 'git checkout $BRANCH_NAME'
